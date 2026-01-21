@@ -1,701 +1,215 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>下载UC浏览器在线观看更流畅</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>aaass</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            color: #fff;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 20px;
-            transition: background-color 1.5s ease;
-        }
-        
-        .container {
-            width: 100%;
-            max-width: 1400px;
-            display: flex;
-            flex-direction: column;
-            gap: 50px;
-        }
-        
-        header {
-            text-align: center;
+        * { margin: 0; padding: 0; box-sizing: border-box; image-rendering: pixelated; }
+        body { 
+            background: #2d1b69; 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            font-family: 'Press Start 2P', cursive; 
             padding: 30px 20px;
         }
-        
-        /* 超大主标题 */
-        h1 {
-            font-size: 4.5rem;
-            margin-bottom: 15px;
-            background: linear-gradient(90deg, #12c2e9, #c471ed, #f64f59);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 5px 15px rgba(18, 194, 233, 0.2);
-            font-weight: 800;
-            letter-spacing: -1px;
-            line-height: 1.1;
-        }
-        
-        .subtitle {
-            font-size: 1.5rem;
-            opacity: 0.9;
-            max-width: 1000px;
+        .container { 
+            max-width: 2200px; 
+            width: 100%; 
             margin: 0 auto;
-            line-height: 1.6;
-            color: #e6f7ff;
         }
-        
-        .title-accent {
-            color: #c471ed;
-            font-weight: 700;
+        h1.main-title { 
+            text-align: center; 
+            margin-bottom: 4rem; 
+            color: #ffec27; 
+            font-size: 3rem; 
+            text-shadow: 4px 4px 0 #e60000, 8px 8px 0 rgba(0,0,0,0.5); 
+            line-height: 1.4; 
+            animation: title-bob 2s infinite alternate; 
         }
-        
-        .promo-container {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 25px;
-            width: 100%;
+        @keyframes title-bob { from { transform: translateY(0); } to { transform: translateY(-8px); } }
+        .cards { 
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: center; 
+            gap: 50px; 
+            margin: 0 auto;
         }
-        
-        @media (max-width: 1200px) {
-            .promo-container {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .promo-container {
-                grid-template-columns: 1fr;
-            }
-            
-            h1 {
-                font-size: 3.2rem;
-            }
-            
-            .subtitle {
-                font-size: 1.2rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-            
-            .subtitle {
-                font-size: 1rem;
-            }
-        }
-        
-        /* 稳定的小容器设计 */
-        .promo-box {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 30px 25px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transition: all 1.5s ease;
-            position: relative;
-            overflow: hidden;
-            height: 240px; /* 固定高度确保稳定 */
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            /* 防止布局抖动 */
-            transform: translateZ(0);
-            -webkit-font-smoothing: antialiased;
-            will-change: transform, background, border-color, box-shadow;
-        }
-        
-        /* 稳定连接设计 - 使用一致的变换属性 */
-        .promo-box:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-            z-index: 10;
-        }
-        
-        /* 形状1: 标准圆角矩形 - 稳定形状 */
-        .shape-rounded {
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-        }
-        
-        .shape-rounded::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, #ff8a00, #e52e71);
-            transition: all 1.5s ease;
-        }
-        
-        /* 形状2: 椭圆/圆形 - 调整参数确保稳定 */
-        .shape-ellipse {
-            border-radius: 25% / 15%;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-        }
-        
-        .shape-ellipse::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.05) 0%, transparent 50%);
-            transition: all 1.5s ease;
-        }
-        
-        /* 形状3: 多边形 - 使用简单的多边形确保稳定 */
-        .shape-polygon {
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            position: relative;
-        }
-        
-        .shape-polygon::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.02) 50%, transparent 60%),
-                linear-gradient(-45deg, transparent 40%, rgba(255,255,255,0.02) 50%, transparent 60%);
-            transition: all 1.5s ease;
-            border-radius: 16px;
-        }
-        
-        /* 形状4: 不对称形状 - 简化确保稳定 */
-        .shape-asymmetric {
-            border-radius: 20px 10px 25px 15px / 15px 25px 10px 20px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-        }
-        
-        .shape-asymmetric::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.02) 50%, transparent 70%);
-            transition: all 1.5s ease;
-            border-radius: 20px 10px 25px 15px / 15px 25px 10px 20px;
-        }
-        
-        /* 无图标设计 */
-        .promo-title {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            transition: all 1.5s ease;
-            width: 100%;
-            position: relative;
-            padding-bottom: 12px;
-        }
-        
-        .promo-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 25%;
-            width: 50%;
-            height: 2px;
-            background: rgba(255, 255, 255, 0.2);
-            transition: all 1.5s ease;
-        }
-        
-        .promo-text {
-            font-size: 1rem;
-            margin-bottom: 20px;
-            line-height: 1.6;
-            opacity: 0.9;
-            transition: all 1.5s ease;
-            flex-grow: 1;
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-        }
-        
-        .promo-link {
-            display: inline-block;
-            padding: 12px 28px;
-            background: linear-gradient(90deg, #12c2e9, #c471ed);
-            color: white;
+        .card { 
+            width: 360px; 
+            height: 110px; 
+            background: #4a2ca0; 
+            border: 4px solid #ffec27; 
+            border-radius: 40px / 110px; 
+            padding: 15px 20px; 
+            display: flex; 
+            flex-direction: row; 
+            align-items: center; 
+            text-align: left; 
+            position: relative; 
+            overflow: hidden; 
+            transition: all 0.2s ease; 
             text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(18, 194, 233, 0.3);
-            position: relative;
-            z-index: 2;
+        }
+        /* 像素边框适配横向椭圆 */
+        .card { 
+            border-image-slice: 20 fill; 
+            border-image-width: 12px; 
+            border-image-outset: 1px; 
+            border-image-source: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="20"><rect x="5" y="3" width="20" height="14" fill="none" stroke="%23ffec27" stroke-width="4" rx="10" ry="7"/></svg>'); 
+        }
+        .card:hover { 
+            background: #5a3cb0; 
+            transform: scale(1.03); 
+        }
+        .pixel-bg { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="8" height="8"><rect width="8" height="8" fill="%233a1c80"/><rect x="4" y="4" width="4" height="4" fill="%233a1c80"/><rect x="0" y="0" width="4" height="4" fill="%233a1c80"/></svg>'); 
+            background-size: 8px; 
+            opacity: 0.4; 
+            z-index: 1; 
+            border-radius: inherit; 
+        }
+        .content { 
+            position: relative; 
+            z-index: 2; 
+            width: 100%; 
+            display: flex; 
+            flex-direction: row; 
+            align-items: center; 
+        }
+        .icon { 
+            font-size: 1.8rem; 
+            margin-right: 15px; 
+            filter: drop-shadow(2px 2px 0 #000); 
+            min-width: 50px; 
+            text-align: center; 
+        }
+        .text-content { 
+            flex: 1; 
+            overflow: hidden;
+        }
+        h3 { 
+            color: #ffec27; 
+            margin-bottom: 5px; 
+            font-size: 0.85rem; 
+            line-height: 1.4; 
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        p { 
+            color: #a98fff; 
+            line-height: 1.4; 
+            font-size: 0.65rem; 
+            margin-bottom: 8px; 
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .btn { 
+            background: #e60000; 
+            color: #fff; 
+            border: none; 
+            padding: 5px 10px; 
+            border-radius: 0; 
+            font-family: inherit; 
+            font-size: 0.65rem; 
+            cursor: pointer; 
+            transition: all 0.2s ease; 
+            box-shadow: 3px 3px 0 #000; 
+        }
+        .btn:active { 
+            transform: translate(2px, 2px); 
+            box-shadow: 1px 1px 0 #000; 
+        }
+        .scanline { 
+            position: fixed; 
+            top: 0; left: 0; 
+            width: 100%; 
+            height: 2px; 
+            background: rgba(0, 255, 0, 0.5); 
+            box-shadow: 0 0 5px rgba(0, 255, 0, 0.8); 
+            animation: scan 3s linear infinite; 
+            z-index: 100; 
+            pointer-events: none; 
+        }
+        @keyframes scan { 0% { top: 0%; } 100% { top: 100%; } }
+        .crt::after { 
+            content: ''; 
+            position: fixed; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06)); 
+            background-size: 100% 3px, 4px 100%; 
+            pointer-events: none; 
+            z-index: 99; 
         }
         
-        .promo-link:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 18px rgba(18, 194, 233, 0.4);
-            background: linear-gradient(90deg, #c471ed, #f64f59);
-        }
-        
-        footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 0.9rem;
-            opacity: 0.7;
-            margin-top: 10px;
-            transition: all 1.5s ease;
-        }
-        
-        /* 稳定动画效果 */
-        @keyframes fadeIn {
-            from { 
-                opacity: 0; 
-                transform: translateY(20px); 
-            }
-            to { 
-                opacity: 1; 
-                transform: translateY(0); 
-            }
-        }
-        
-        .promo-box {
-            animation: fadeIn 0.8s ease forwards;
-        }
-        
-        .promo-box:nth-child(2) {
-            animation-delay: 0.1s;
-        }
-        
-        .promo-box:nth-child(3) {
-            animation-delay: 0.2s;
-        }
-        
-        .promo-box:nth-child(4) {
-            animation-delay: 0.3s;
-        }
-        
-        /* 稳定连接设计 - 防止布局抖动 */
-        .promo-container {
-            perspective: 1000px;
-        }
-        
-        /* 响应式调整 */
-        @media (max-width: 992px) {
-            .promo-title {
-                font-size: 1.6rem;
-            }
-            
-            .promo-box {
-                padding: 25px 20px;
-                height: 230px;
-            }
-        }
-        
+        @media (max-width: 2200px) { .container { max-width: 1800px; } }
+        @media (max-width: 1800px) { .cards { gap: 40px; } }
+        @media (max-width: 1600px) { .container { max-width: 1400px; } .cards { gap: 35px; } }
+        @media (max-width: 1400px) { .cards { gap: 30px; } }
+        @media (max-width: 1200px) { .cards { gap: 25px; } }
+        @media (max-width: 992px) { .cards { gap: 20px; } }
         @media (max-width: 768px) {
-            .promo-title {
-                font-size: 1.5rem;
-            }
-            
-            .promo-box {
-                height: 220px;
-            }
+            h1.main-title { font-size: 1.8rem; margin-bottom: 3rem; }
+            .cards { gap: 15px; }
+            .card { width: 100%; max-width: 360px; height: 105px; padding: 12px 18px; border-radius: 35px / 100px; }
+            .icon { font-size: 1.6rem; margin-right: 12px; min-width: 45px; }
         }
-        
-        /* 稳定连接设计 - 优化渲染性能 */
-        .promo-box {
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
-        }
-        
-        /* 稳定网格布局 */
-        .promo-container {
-            grid-auto-rows: minmax(240px, auto);
-        }
-        
-        @media (max-width: 992px) {
-            .promo-container {
-                grid-auto-rows: minmax(230px, auto);
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .promo-container {
-                grid-auto-rows: minmax(220px, auto);
-            }
-        }
+        @media (max-width: 576px) { .cards { gap: 12px; } body { padding: 20px 15px; } }
     </style>
 </head>
-<body>
+<body class="crt">
+    <div class="scanline"></div>
     <div class="container">
-        <header>
-            <h1 id="main-title">网址6AAK.CC</h1>
-            <p class="subtitle"><span class="title-accent">⬆️浏览器搜索永久网址⬆️</span></p>
-        </header>
-        
-        <div class="promo-container" id="promo-container">
-            <!-- 推广链接1 - 稳定连接设计 -->
-            <div class="promo-box shape-rounded" id="promo-box-1">
-                <h3 class="promo-title">人妻诱惑</h3>
-                <p class="promo-text"> 剧情 自拍 跟踪 偷吃 换妻 </p>
-                <a href="http://iimp.u.hbbwy.cn/s/15Go9v">点击这里</a>
-            </div>
-            
-            <!-- 推广链接2 -->
-            <div class="promo-box shape-rounded" id="promo-box-2">
-                <h3 class="promo-title">幼女童真</h3>
-                <p class="promo-text">破处 童颜巨乳 童真可爱 </p>
-                <a href="http://genfcvci.u.czxbw.com/s/15G6DS" class="promo-link">点击这里</a>
-            </div>
-            
-            <!-- 推广链接3 -->
-            <div class="promo-box shape-rounded" id="promo-box-3">
-                <h3 class="promo-title">制服诱惑</h3>
-                <p class="promo-text">护士 空姐 瘦身衣 瑜伽裤 丝袜</p>
-                <a href="https://cdn.auoktalk.com/1765305207_9a98847a3077bb8d026152b20018639f?code=aubr96" class="promo-link">点击这里</a>
-            </div>
-            
-            <!-- 推广链接4 -->
-            <div class="promo-box shape-rounded" id="promo-box-4">
-                <h3 class="promo-title">人兽激情</h3>
-                <p class="promo-text">各种人兽动物乱交</p>
-                <a href="http://dsjhfgsdfdgs.cn/syb/" class="promo-link">点击这里</a>
-            </div>
+        <h1 class="main-title">永久867B.cc.网址</h1>
+        <div class="cards">
+            <a href="http://genfcvci.u.czxbw.com/s/15G6DS" class="card">
+                <div class="pixel-bg"></div>
+                <div class="content">
+                    <div class="icon">🕹️</div>
+                    <div class="text-content"><h3>1-UP 人妻</h3><p>这里每种电影都有</p><div class="btn">点我这里</div></div>
+                </div>
+            </a>
+            <a href="https://cdn.auoktalk.com/1765305207_9a98847a3077bb8d026152b20018639f?code=aubr96" class="card">
+                <div class="pixel-bg"></div>
+                <div class="content">
+                    <div class="icon">💾</div>
+                    <div class="text-content"><h3>2-UP幼女</h3><p>这里每种电影都有</p><div class="btn">点我这里</div></div>
+                </div>
+            </a>
+            <a href="http://1206.pgzz.wse1l.com/a/626269?7pff" class="card">
+                <div class="pixel-bg"></div>
+                <div class="content">
+                    <div class="icon">⚡</div>
+                    <div class="text-content"><h3>3-UP野兽</h3><p>这里每种电影都有</p><div class="btn">点我这里</div></div>
+                </div>
+            </a>
+            <a href="http://dsjhfgsdfdgs.cn/syb/" class="card">
+                <div class="pixel-bg"></div>
+                <div class="content">
+                    <div class="icon">🧩</div>
+                    <div class="text-content"><h3>4-UP乱战</h3><p>这里每种电影都有</p><div class="btn">点我这里</div></div>
+                </div>
+            </a>
+            <a href="https://mc-public-tz.taizhou.com.cn/87896997243868548326503263773188292.html?atecode=NTAxLERsYTJVLDY" class="card">
+                <div class="pixel-bg"></div>
+                <div class="content">
+                    <div class="icon">🎮</div>
+                    <div class="text-content"><h3>5-UP车震</h3><p>这里每种电影都有</p><div class="btn">扩展</div></div>
+                </div>
+            </a>
         </div>
-        
-        <footer>
-            <p></p>
-        </footer>
     </div>
-
-    <script>
-        // 定义不同的颜色方案（时尚配色）- 只影响容器，不影响主标题
-        const colorSchemes = [
-            {
-                name: "霓虹幻彩",
-                bodyBg: "linear-gradient(135deg, #0f0c29, #302b63, #24243e)",
-                promoBoxBg: "rgba(255, 255, 255, 0.1)",
-                promoBoxBorder: "rgba(255, 255, 255, 0.15)",
-                topBorder: "linear-gradient(90deg, #ff8a00, #e52e71)",
-                titleColor: "#ffffff",
-                textColor: "rgba(255, 255, 255, 0.9)",
-                footerColor: "rgba(255, 255, 255, 0.7)",
-                titleUnderline: "rgba(255, 255, 255, 0.2)"
-            },
-            {
-                name: "深海幽蓝",
-                bodyBg: "linear-gradient(135deg, #0d1b2a, #1b263b, #415a77)",
-                promoBoxBg: "rgba(23, 42, 58, 0.5)",
-                promoBoxBorder: "rgba(64, 156, 255, 0.3)",
-                topBorder: "linear-gradient(90deg, #48cae4, #0096c7)",
-                titleColor: "#ffffff",
-                textColor: "rgba(200, 230, 255, 0.9)",
-                footerColor: "rgba(200, 230, 255, 0.7)",
-                titleUnderline: "rgba(200, 230, 255, 0.2)"
-            },
-            {
-                name: "森林秘境",
-                bodyBg: "linear-gradient(135deg, #0a2e0a, #1b5e20, #2e7d32)",
-                promoBoxBg: "rgba(46, 125, 50, 0.4)",
-                promoBoxBorder: "rgba(129, 199, 132, 0.3)",
-                topBorder: "linear-gradient(90deg, #a5d6a7, #4caf50)",
-                titleColor: "#ffffff",
-                textColor: "rgba(200, 255, 200, 0.9)",
-                footerColor: "rgba(200, 255, 200, 0.7)",
-                titleUnderline: "rgba(200, 255, 200, 0.2)"
-            },
-            {
-                name: "暮光之城",
-                bodyBg: "linear-gradient(135deg, #3d1e6d, #6d3f8c, #8e5aa7)",
-                promoBoxBg: "rgba(142, 90, 167, 0.4)",
-                promoBoxBorder: "rgba(204, 153, 255, 0.3)",
-                topBorder: "linear-gradient(90deg, #d4a5ff, #b388eb)",
-                titleColor: "#ffffff",
-                textColor: "rgba(230, 210, 255, 0.9)",
-                footerColor: "rgba(230, 210, 255, 0.7)",
-                titleUnderline: "rgba(230, 210, 255, 0.2)"
-            },
-            {
-                name: "落日熔金",
-                bodyBg: "linear-gradient(135deg, #1a1a2e, #16213e, #0f3460)",
-                promoBoxBg: "rgba(31, 60, 110, 0.5)",
-                promoBoxBorder: "rgba(255, 183, 77, 0.3)",
-                topBorder: "linear-gradient(90deg, #ffb74d, #ff9800)",
-                titleColor: "#ffffff",
-                textColor: "rgba(255, 224, 178, 0.9)",
-                footerColor: "rgba(255, 224, 178, 0.7)",
-                titleUnderline: "rgba(255, 224, 178, 0.2)"
-            },
-            {
-                name: "紫罗兰梦境",
-                bodyBg: "linear-gradient(135deg, #1a0b2e, #3d1e6d, #5a2d91)",
-                promoBoxBg: "rgba(106, 13, 173, 0.3)",
-                promoBoxBorder: "rgba(188, 126, 255, 0.3)",
-                topBorder: "linear-gradient(90deg, #9d4edd, #c77dff)",
-                titleColor: "#ffffff",
-                textColor: "rgba(237, 219, 255, 0.9)",
-                footerColor: "rgba(237, 219, 255, 0.7)",
-                titleUnderline: "rgba(237, 219, 255, 0.2)"
-            }
-        ];
-        
-        // 定义不同的形状方案 - 确保稳定的形状变换
-        const shapeSchemes = [
-            {
-                name: "圆角矩形",
-                className: "shape-rounded"
-            },
-            {
-                name: "椭圆",
-                className: "shape-ellipse"
-            },
-            {
-                name: "多边形",
-                className: "shape-polygon"
-            },
-            {
-                name: "不对称形状",
-                className: "shape-asymmetric"
-            }
-        ];
-        
-        // 初始索引
-        let currentSchemeIndex = 0;
-        let currentShapeIndex = 0;
-        const totalSchemes = colorSchemes.length;
-        const totalShapes = shapeSchemes.length;
-        
-        // 自动变换控制
-        let autoChangeEnabled = true;
-        let countdown = 300; // 5分钟 = 300秒
-        let countdownInterval;
-        
-        // 获取DOM元素
-        const body = document.body;
-        const promoBoxes = document.querySelectorAll('.promo-box');
-        const footer = document.querySelector('footer');
-        const promoTitle = document.querySelectorAll('.promo-title');
-        const promoText = document.querySelectorAll('.promo-text');
-        
-        // 应用颜色方案 - 主标题颜色保持不变
-        function applyColorScheme(schemeIndex) {
-            const scheme = colorSchemes[schemeIndex];
-            
-            // 应用颜色方案到各个元素（不影响主标题）
-            body.style.background = scheme.bodyBg;
-            footer.style.color = scheme.footerColor;
-            
-            // 使用requestAnimationFrame确保平滑更新
-            requestAnimationFrame(() => {
-                // 更新每个推广框的颜色
-                promoBoxes.forEach((box, index) => {
-                    // 使用will-change优化性能
-                    box.style.willChange = 'background, border-color';
-                    
-                    box.style.background = scheme.promoBoxBg;
-                    
-                    // 更新标题和文本颜色
-                    promoTitle[index].style.color = scheme.titleColor;
-                    promoText[index].style.color = scheme.textColor;
-                    
-                    // 更新标题下划线颜色
-                    promoTitle[index].style.setProperty('--underline-color', scheme.titleUnderline);
-                    
-                    // 更新边框颜色
-                    box.style.borderColor = scheme.promoBoxBorder;
-                    
-                    // 清除will-change
-                    setTimeout(() => {
-                        box.style.willChange = 'auto';
-                    }, 1500);
-                });
-            });
-        }
-        
-        // 应用形状方案 - 确保稳定变换
-        function applyShapeScheme(shapeIndex) {
-            const shape = shapeSchemes[shapeIndex];
-            
-            // 使用requestAnimationFrame确保平滑更新
-            requestAnimationFrame(() => {
-                // 更新每个推广框的形状
-                promoBoxes.forEach(box => {
-                    // 使用will-change优化性能
-                    box.style.willChange = 'border-radius, clip-path, transform';
-                    
-                    // 移除所有形状类
-                    shapeSchemes.forEach(shapeScheme => {
-                        box.classList.remove(shapeScheme.className);
-                    });
-                    
-                    // 添加新形状类
-                    box.classList.add(shape.className);
-                    
-                    // 清除will-change
-                    setTimeout(() => {
-                        box.style.willChange = 'auto';
-                    }, 1500);
-                });
-            });
-        }
-        
-        // 切换到下一个颜色和形状方案 - 优化变换顺序
-        function nextScheme() {
-            if (!autoChangeEnabled) return;
-            
-            // 先变换颜色，再变换形状，确保稳定
-            currentSchemeIndex = (currentSchemeIndex + 1) % totalSchemes;
-            applyColorScheme(currentSchemeIndex);
-            
-            // 延迟变换形状，确保稳定
-            setTimeout(() => {
-                currentShapeIndex = (currentShapeIndex + 1) % totalShapes;
-                applyShapeScheme(currentShapeIndex);
-            }, 300);
-            
-            resetCountdown();
-        }
-        
-        // 重置倒计时
-        function resetCountdown() {
-            countdown = 300; // 重置为5分钟
-        }
-        
-        // 启动倒计时 - 在代码内部运行，不显示
-        function startCountdown() {
-            clearInterval(countdownInterval);
-            
-            countdownInterval = setInterval(() => {
-                if (autoChangeEnabled) {
-                    countdown--;
-                    
-                    if (countdown <= 0) {
-                        nextScheme();
-                    }
-                }
-            }, 1000);
-        }
-        
-        // 初始化页面 - 优化初始化顺序
-        function initPage() {
-            // 随机选择初始颜色和形状方案
-            currentSchemeIndex = Math.floor(Math.random() * totalSchemes);
-            currentShapeIndex = Math.floor(Math.random() * totalShapes);
-            
-            // 先应用颜色，再应用形状
-            applyColorScheme(currentSchemeIndex);
-            
-            // 延迟应用形状，确保稳定
-            setTimeout(() => {
-                applyShapeScheme(currentShapeIndex);
-            }, 100);
-            
-            // 启动倒计时（在代码内部运行，不显示）
-            setTimeout(() => {
-                startCountdown();
-            }, 2000); // 延迟启动，确保页面完全加载
-            
-            // 为每个推广链接添加稳定的悬停效果
-            promoBoxes.forEach(box => {
-                box.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-8px) scale(1.02)';
-                    this.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.3)';
-                    this.style.zIndex = '10';
-                });
-                
-                box.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0) scale(1)';
-                    this.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.2)';
-                    this.style.zIndex = '1';
-                });
-            });
-            
-            // 添加键盘支持（按空格键切换颜色方案）
-            document.addEventListener('keydown', function(event) {
-                if (event.code === 'Space') {
-                    event.preventDefault();
-                    if (autoChangeEnabled) {
-                        nextScheme();
-                    }
-                }
-            });
-            
-            // 添加稳定的页面点击切换功能
-            document.addEventListener('click', function(e) {
-                // 如果不是点击在链接上，则切换
-                if (!e.target.closest('.promo-link')) {
-                    nextScheme();
-                }
-            });
-            
-            // 防止频繁切换导致的抖动
-            let lastChangeTime = 0;
-            const minChangeInterval = 1000; // 最小切换间隔1秒
-            
-            // 添加防抖动的切换函数
-            function stableNextScheme() {
-                const now = Date.now();
-                if (now - lastChangeTime > minChangeInterval) {
-                    lastChangeTime = now;
-                    nextScheme();
-                }
-            }
-            
-            // 添加双击切换功能（稳定版）
-            document.addEventListener('dblclick', function(e) {
-                if (!e.target.closest('.promo-link')) {
-                    stableNextScheme();
-                }
-            });
-        }
-        
-        // 页面加载完成后初始化
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initPage);
-        } else {
-            initPage();
-        }
-        
-        // 添加CSS变量支持标题下划线颜色
-        document.documentElement.style.setProperty('--underline-color', 'rgba(255, 255, 255, 0.2)');
-        
-        // 更新CSS以使用变量
-        const style = document.createElement('style');
-        style.textContent = `
-            .promo-title::after {
-                background: var(--underline-color, rgba(255, 255, 255, 0.2));
-            }
-        `;
-        document.head.appendChild(style);
-    </script>
 </body>
-
 </html>
-
-
