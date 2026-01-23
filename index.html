@@ -1,183 +1,889 @@
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>fdxrt</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>下载UC浏览器访问最佳体验</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
         }
         
         body {
-            background-color: #ffffff;
+            background: linear-gradient(135deg, #000428 0%, #004e92 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             padding: 20px;
+            transition: background-color 3s ease;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* 烟花画布 */
+        #fireworks-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
         }
         
         .container {
-            text-align: center;
+            max-width: 1600px;
             width: 100%;
-            max-width: 900px;
-            padding: 20px;
-        }
-        
-        .page-title {
-            color: #333;
-            font-size: 2.2rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        
-        .page-subtitle {
-            color: #666;
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 60px;
-            text-align: center;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .button-row {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 50px;
-            margin: 40px 0;
-        }
-        
-        .btn-link {
-            text-decoration: none;
-            display: inline-block;
-        }
-        
-        .btn {
-            padding: 22px 60px;
-            font-size: 1.3rem;
-            font-weight: 600;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: white;
-            text-align: center;
-            min-width: 220px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            padding: 40px 30px;
             position: relative;
             overflow: hidden;
+            transition: all 2s ease;
+            z-index: 10;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        
+        .title {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            transition: all 2s ease;
+            background: linear-gradient(90deg, 
+                rgba(255, 126, 95, 0.9), 
+                rgba(254, 180, 123, 0.9));
+            z-index: 1;
+        }
+        
+        .title::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 100%);
+        }
+        
+        .title .bg {
+            font-size: 36px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+            letter-spacing: 1.5px;
+            position: relative;
+        }
+        
+        /* 1×5推广链接布局 - 椭圆横向形状 */
+        .promotion-links {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            transition: all 2s ease;
+        }
+        
+        .promo-item {
+            border-radius: 100px;
+            padding: 18px 25px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 110px;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+            background: linear-gradient(90deg, 
+                rgba(54, 209, 220, 0.9), 
+                rgba(91, 134, 229, 0.9));
+        }
+        
+        /* 炫酷背景效果 */
+        .promo-item::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                rgba(255, 255, 255, 0.15) 0%, 
+                rgba(255, 255, 255, 0.25) 50%, 
+                rgba(255, 255, 255, 0.15) 100%);
+            z-index: -1;
+            transition: all 2s ease;
+        }
+        
+        /* 光晕效果 */
+        .promo-item::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            transform: scale(0.5);
+        }
+        
+        /* 边框流光效果 */
+        .border-glow {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        /* 炫酷悬停效果 */
+        .promo-item:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.5),
+                0 0 25px rgba(255, 255, 255, 0.4) inset,
+                0 0 50px rgba(255, 255, 255, 0.2);
+            background: linear-gradient(90deg, 
+                rgba(54, 209, 220, 0.95), 
+                rgba(91, 134, 229, 0.95));
+        }
+        
+        .promo-item:hover::after {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .promo-item:hover .border-glow {
+            left: 100%;
+            transition: left 1s ease;
+        }
+        
+        .promo-item:hover .promo-icon {
+            transform: scale(1.15) rotate(10deg);
+            box-shadow: 
+                0 0 15px rgba(255, 255, 255, 0.8),
+                0 0 30px rgba(255, 255, 255, 0.4);
+        }
+        
+        .promo-item:hover .promo-arrow {
+            transform: translateX(8px) scale(1.2);
+            opacity: 1;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+        }
+        
+        .promo-item:hover .promo-title {
+            text-shadow: 
+                0 0 8px rgba(255, 255, 255, 0.8),
+                0 0 15px rgba(255, 255, 255, 0.4);
+            letter-spacing: 1.5px;
+        }
+        
+        .promo-item:hover .promo-desc {
+            transform: translateY(-3px);
+            opacity: 0.9;
+        }
+        
+        .promo-item:hover .click-hint {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* 点击效果 */
+        .promo-item:active {
+            transform: translateY(-4px) scale(0.98);
+            transition: transform 0.1s ease;
+        }
+        
+        .promo-content {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .promo-icon {
+            width: 60px;
+            height: 60px;
+            min-width: 60px;
+            margin-right: 15px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: white;
+            font-size: 26px;
+            font-weight: bold;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            z-index: 2;
+            background: linear-gradient(135deg, var(--icon-color1), var(--icon-color2));
         }
         
-        .btn:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 18px 30px rgba(0, 0, 0, 0.15);
+        .promo-text {
+            flex: 1;
+            text-align: left;
+            position: relative;
+            z-index: 2;
         }
         
-        .btn-primary {
-            background: linear-gradient(135deg, #4A6CF7 0%, #6a8cff 100%);
+        .promo-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 6px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            line-height: 1.2;
         }
         
-        .btn-secondary {
-            background: linear-gradient(135deg, #10B981 0%, #34D399 100%);
+        .promo-desc {
+            font-size: 13px;
+            color: white;
+            line-height: 1.3;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s ease;
+            opacity: 0.8;
+        }
+        
+        .promo-arrow {
+            margin-left: 10px;
+            color: white;
+            font-size: 22px;
+            font-weight: bold;
+            opacity: 0.8;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* 点击提示 */
+        .click-hint {
+            position: absolute;
+            bottom: 3px;
+            right: 15px;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.7);
+            font-style: italic;
+            transition: all 2s ease;
+            z-index: 2;
+            opacity: 0.5;
+            transform: translateY(5px);
+            transition: all 0.4s ease;
+        }
+        
+        /* 浮动动画 */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        
+        .promo-item:nth-child(1) {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .promo-item:nth-child(2) {
+            animation: float 6s ease-in-out infinite 0.3s;
+        }
+        
+        .promo-item:nth-child(3) {
+            animation: float 6s ease-in-out infinite 0.6s;
+        }
+        
+        .promo-item:nth-child(4) {
+            animation: float 6s ease-in-out infinite 0.9s;
+        }
+        
+        .promo-item:nth-child(5) {
+            animation: float 6s ease-in-out infinite 1.2s;
+        }
+        
+        /* 性能优化：减少移动端的动画 */
+        @media (max-width: 768px) {
+            .promo-item {
+                animation: none !important;
+            }
+            
+            .promo-item:hover {
+                transform: translateY(-5px) scale(1.03);
+            }
+        }
+        
+        @media (max-width: 1400px) {
+            .promotion-links {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 20px;
+            }
+        }
+        
+        @media (max-width: 1200px) {
+            .promotion-links {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+            
+            .promo-item {
+                padding: 16px 22px;
+                min-height: 100px;
+            }
+            
+            .promo-icon {
+                width: 55px;
+                height: 55px;
+                min-width: 55px;
+                font-size: 24px;
+                margin-right: 12px;
+            }
+            
+            .promo-title {
+                font-size: 17px;
+            }
+            
+            .promo-desc {
+                font-size: 12px;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .promotion-links {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .promo-item {
+                min-height: 95px;
+            }
         }
         
         @media (max-width: 768px) {
-            .button-row {
-                flex-direction: column;
-                gap: 35px;
+            .container {
+                padding: 30px 20px;
             }
             
-            .btn {
-                min-width: 200px;
-                padding: 20px 50px;
-            }
-            
-            .page-title {
-                font-size: 1.8rem;
-            }
-            
-            .page-subtitle {
-                font-size: 1rem;
+            .title {
                 margin-bottom: 40px;
-                padding: 0 15px;
+                padding: 20px;
+            }
+            
+            .title .bg {
+                font-size: 28px;
+            }
+            
+            .promotion-links {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+            
+            .promo-item {
+                min-height: 90px;
+                padding: 14px 20px;
+            }
+            
+            .promo-icon {
+                width: 50px;
+                height: 50px;
+                min-width: 50px;
+                font-size: 22px;
+                margin-right: 10px;
+            }
+            
+            .promo-title {
+                font-size: 16px;
+            }
+            
+            .promo-desc {
+                font-size: 11px;
+            }
+            
+            .promo-arrow {
+                font-size: 20px;
             }
         }
         
-        @media (max-width: 480px) {
-            .btn {
-                min-width: 180px;
-                padding: 18px 45px;
-                font-size: 1.1rem;
-            }
-            
-            .page-title {
-                font-size: 1.6rem;
-            }
-            
-            .page-subtitle {
-                font-size: 0.95rem;
-                margin-bottom: 30px;
-            }
+        /* 初始化颜色 */
+        .promo-icon {
+            --icon-color1: #ff7e5f;
+            --icon-color2: #feb47b;
+            background: linear-gradient(135deg, var(--icon-color1), var(--icon-color2));
         }
     </style>
 </head>
 <body>
+    <!-- 烟花画布 -->
+    <canvas id="fireworks-canvas"></canvas>  
     <div class="container">
-        <h1 class="page-title">网址6AAK.cc</h1>
-        <p class="page-subtitle">点击下方按钮</p>
-        
-        <div class="button-row">
-            <a href="http://iimp.u.hbbwy.cn/s/15Go9v" target="_blank" class="btn-link">
-                <button class="btn btn-primary">
-                   1在线视频
-                </button>
-            </a>
+        <div class="title">
+            <div class="bg">网址👉6AAK.cc</div>
+        </div>        
+        <!-- 1×5推广链接区域 - 椭圆横向形状 -->
+        <div class="promotion-links">
+            <div class="promo-item" onclick="openLink('http://kb0nq.1225.ljpkshcool.cn/1uWPPYK0/113?t=pages/wapredirect')" data-url="https://example.com/uc1">
+                <div class="border-glow"></div>
+                <div class="promo-content">
+                    <div class="promo-icon">1</div>
+                    <div class="promo-text">
+                        <div class="promo-title">人妻</div>
+                        <div class="promo-desc">高速安全浏览器，极速上网观看</div>
+                    </div>
+                    <div class="promo-arrow">→</div>
+                </div>
+                <div class="click-hint">点击访问</div>
+            </div>
             
-            <a href="http://genfcvci.u.czxbw.com/s/15G6DS" target="_blank" class="btn-link">
-                <button class="btn btn-secondary">
-                   2在线视频
-                </button>
-            </a>
-
-            <a href="https://cdn.auoktalk.com/1765305207_9a98847a3077bb8d026152b20018639f?code=aubr96" target="_blank" class="btn-link">
-                <button class="btn btn-secondary">
-                   3在线视频
-                </button>
-            </a>
+            <div class="promo-item" onclick="openLink('https://cdn.auoktalk.com/1765305207_9a98847a3077bb8d026152b20018639f?code=aubr96')" data-url="https://example.com/uc2">
+                <div class="border-glow"></div>
+                <div class="promo-content">
+                    <div class="promo-icon">2</div>
+                    <div class="promo-text">
+                        <div class="promo-title">乱交</div>
+                        <div class="promo-desc">海量高清视频，流畅播放体验</div>
+                    </div>
+                    <div class="promo-arrow">→</div>
+                </div>
+                <div class="click-hint">点击访问</div>
+            </div>
+            
+            <div class="promo-item" onclick="openLink('http://genfcvci.u.czxbw.com/s/15G6DS')" data-url="https://example.com/uc3">
+                <div class="border-glow"></div>
+                <div class="promo-content">
+                    <div class="promo-icon">3</div>
+                    <div class="promo-text">
+                        <div class="promo-title">换妻</div>
+                        <div class="promo-desc">个性化影城推荐，掌握最新动态</div>
+                    </div>
+                    <div class="promo-arrow">→</div>
+                </div>
+                <div class="click-hint">点击访问</div>
+            </div>
+            
+            <div class="promo-item" onclick="openLink('http://dsjhfgsdfdgs.cn/syb/')" data-url="https://example.com/uc4">
+                <div class="border-glow"></div>
+                <div class="promo-content">
+                    <div class="promo-icon">4</div>
+                    <div class="promo-text">
+                        <div class="promo-title">野兽</div>
+                        <div class="promo-desc">精品视频平台，流畅热门电影</div>
+                    </div>
+                    <div class="promo-arrow">→</div>
+                </div>
+                <div class="click-hint">点击访问</div>
+            </div>
+            
+            <div class="promo-item" onclick="openLink('https://mc-public-tz.taizhou.com.cn/87896997243868548326503263773188292.html?atecode=NTAxLERsYTJVLDY')" data-url="https://example.com/uc5">
+                <div class="border-glow"></div>
+                <div class="promo-content">
+                    <div class="promo-icon">5</div>
+                    <div class="promo-text">
+                        <div class="promo-title">制服</div>
+                        <div class="promo-desc">海海量正版视频，流畅午夜时光</div>
+                    </div>
+                    <div class="promo-arrow">→</div>
+                </div>
+                <div class="click-hint">点击访问</div>
+            </div>
         </div>
     </div>
 
     <script>
-        // 添加点击反馈效果
-        document.querySelectorAll('.btn').forEach(button => {
-            button.addEventListener('click', function() {
-                // 添加点击动画
-                this.style.transform = 'translateY(-6px)';
-                this.style.boxShadow = '0 12px 25px rgba(0, 0, 0, 0.2)';
+        // 修复的链接跳转函数 - 使用标准方法
+        function openLink(url) {
+            // 方法1：使用window.open在新标签页打开（最安全）
+            const newWindow = window.open(url, '_blank');
+            
+            // 如果浏览器阻止了新窗口，尝试方法2
+            if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
+                // 方法2：在当前页面跳转
+                try {
+                    window.location.href = url;
+                } catch (e) {
+                    // 方法3：创建并点击一个隐藏的链接
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.target = '_blank';
+                    link.rel = 'noopener noreferrer';
+                    link.style.display = 'none';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+            }
+        }
+        
+        // 性能优化的烟花效果
+        class OptimizedFireworks {
+            constructor() {
+                this.canvas = document.getElementById('fireworks-canvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.particles = [];
+                this.fireworks = [];
+                this.timerTotal = 10;
+                this.timerTick = 0;
+                this.running = true;
+                this.autoFireworks = true;
+                this.lastTime = 0;
+                this.fps = 60;
+                this.fpsInterval = 1000 / this.fps;
                 
-                setTimeout(() => {
-                    this.style.transform = 'translateY(-12px)';
-                    this.style.boxShadow = '0 18px 30px rgba(0, 0, 0, 0.15)';
-                }, 150);
+                this.init();
+                this.loop();
+                
+                // 窗口大小改变时重置画布
+                window.addEventListener('resize', () => this.resizeCanvas());
+            }
+            
+            init() {
+                this.resizeCanvas();
+                // 初始创建较少的烟花
+                for (let i = 0; i < 2; i++) {
+                    setTimeout(() => {
+                        this.createFirework(this.canvas.width / 2, this.canvas.height);
+                    }, i * 800);
+                }
+            }
+            
+            resizeCanvas() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+            }
+            
+            createFirework(sx, sy) {
+                const x = sx || Math.random() * this.canvas.width;
+                const y = sy || this.canvas.height;
+                
+                this.fireworks.push({
+                    x: x,
+                    y: y,
+                    sx: x,
+                    sy: y,
+                    tx: Math.random() * this.canvas.width,
+                    ty: Math.random() * this.canvas.height * 0.5,
+                    speed: 1.5 + Math.random() * 1.5,
+                    size: 2,
+                    color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+                    brightness: 1
+                });
+            }
+            
+            explode(x, y) {
+                const particleCount = 30 + Math.floor(Math.random() * 20);
+                const color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = Math.random() * 2 + 0.5;
+                    const vx = Math.cos(angle) * speed;
+                    const vy = Math.sin(angle) * speed;
+                    const size = 1 + Math.random() * 1.5;
+                    const decay = 0.03 + Math.random() * 0.04;
+                    
+                    this.particles.push({
+                        x: x,
+                        y: y,
+                        vx: vx,
+                        vy: vy,
+                        size: size,
+                        color: color,
+                        brightness: 1,
+                        decay: decay,
+                        gravity: 0.02
+                    });
+                }
+            }
+            
+            update() {
+                if (!this.running) return;
+                
+                // 自动生成新的烟花
+                if (this.autoFireworks) {
+                    this.timerTick++;
+                    if (this.timerTick >= this.timerTotal) {
+                        // 限制同时存在的烟花数量
+                        if (this.fireworks.length < 2) {
+                            this.createFirework();
+                        }
+                        this.timerTick = 0;
+                        this.timerTotal = 12 + Math.random() * 20;
+                    }
+                }
+                
+                // 更新烟花位置
+                for (let i = this.fireworks.length - 1; i >= 0; i--) {
+                    const fw = this.fireworks[i];
+                    
+                    // 计算距离目标位置的距离
+                    const dx = fw.tx - fw.x;
+                    const dy = fw.ty - fw.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    // 如果接近目标位置，就爆炸
+                    if (distance < 10) {
+                        this.explode(fw.x, fw.y);
+                        this.fireworks.splice(i, 1);
+                        continue;
+                    }
+                    
+                    // 移动烟花
+                    fw.x += (dx / distance) * fw.speed;
+                    fw.y += (dy / distance) * fw.speed;
+                }
+                
+                // 更新粒子位置
+                for (let i = this.particles.length - 1; i >= 0; i--) {
+                    const p = this.particles[i];
+                    
+                    // 更新位置
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.vy += p.gravity;
+                    
+                    // 衰减
+                    p.brightness -= p.decay;
+                    
+                    // 移除不可见的粒子
+                    if (p.brightness <= 0 || p.y > this.canvas.height) {
+                        this.particles.splice(i, 1);
+                    }
+                }
+                
+                // 限制粒子总数
+                if (this.particles.length > 150) {
+                    this.particles.splice(0, this.particles.length - 100);
+                }
+            }
+            
+            draw() {
+                // 创建半透明黑色背景，用于拖尾效果
+                this.ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                // 绘制烟花
+                for (const fw of this.fireworks) {
+                    this.ctx.beginPath();
+                    this.ctx.arc(fw.x, fw.y, fw.size, 0, Math.PI * 2);
+                    this.ctx.fillStyle = fw.color;
+                    this.ctx.fill();
+                }
+                
+                // 绘制粒子
+                for (const p of this.particles) {
+                    this.ctx.beginPath();
+                    this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    
+                    // 根据亮度调整颜色
+                    const color = p.color.replace('hsl', 'hsla').replace(')', `, ${p.brightness})`);
+                    this.ctx.fillStyle = color;
+                    this.ctx.fill();
+                }
+            }
+            
+            loop(timestamp) {
+                if (!this.lastTime) this.lastTime = timestamp;
+                
+                const elapsed = timestamp - this.lastTime;
+                
+                if (elapsed > this.fpsInterval) {
+                    this.lastTime = timestamp - (elapsed % this.fpsInterval);
+                    
+                    this.update();
+                    this.draw();
+                }
+                
+                requestAnimationFrame((ts) => this.loop(ts));
+            }
+            
+            trigger() {
+                // 触发少量烟花
+                for (let i = 0; i < 2; i++) {
+                    setTimeout(() => {
+                        this.createFirework(
+                            Math.random() * this.canvas.width,
+                            this.canvas.height
+                        );
+                    }, i * 300);
+                }
+            }
+        }
+        
+        // 颜色控制相关变量
+        let autoChangeInterval;
+        const changeInterval = 10 * 60 * 1000; // 10分钟
+        let fireworksInstance;
+        
+        // 初始化自动更换颜色
+        function initAutoColorChange() {
+            // 立即更换一次颜色
+            changeAllColors();
+            
+            // 设置定时器，每10分钟自动更换所有颜色
+            autoChangeInterval = setInterval(changeAllColors, changeInterval);
+        }
+        
+        // 生成随机颜色函数
+        function getRandomColor() {
+            const hue = Math.floor(Math.random() * 360);
+            const saturation = 60 + Math.floor(Math.random() * 30);
+            const lightness = 40 + Math.floor(Math.random() * 30);
+            return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+        }
+        
+        // 生成随机渐变色函数
+        function getRandomGradient(angle = 90) {
+            const hue1 = Math.floor(Math.random() * 360);
+            const hue2 = (hue1 + 60) % 360;
+            const saturation = 60 + Math.floor(Math.random() * 30);
+            const lightness = 40 + Math.floor(Math.random() * 30);
+            return `linear-gradient(${angle}deg, hsla(${hue1}, ${saturation}%, ${lightness}%, 0.9), hsla(${hue2}, ${saturation}%, ${lightness - 10}%, 0.9))`;
+        }
+        
+        // 更换所有颜色函数
+        function changeAllColors() {
+            // 1. 更换页面背景色
+            const pageHue = Math.floor(Math.random() * 360);
+            const pageSaturation = 60 + Math.floor(Math.random() * 30);
+            const pageLightness = 40 + Math.floor(Math.random() * 30);
+            const pageColor1 = `hsl(${pageHue}, ${pageSaturation}%, ${pageLightness}%)`;
+            const pageColor2 = `hsl(${(pageHue + 60) % 360}, ${pageSaturation}%, ${pageLightness - 10}%)`;
+            document.body.style.background = `linear-gradient(135deg, ${pageColor1} 0%, ${pageColor2} 100%)`;
+            
+            // 2. 更换标题区域颜色
+            const titleElement = document.querySelector('.title');
+            if (titleElement) {
+                titleElement.style.background = getRandomGradient(90);
+            }
+            
+            // 3. 更换推广链接区域颜色
+            const promoItems = document.querySelectorAll('.promo-item');
+            promoItems.forEach(item => {
+                const gradient = getRandomGradient(90);
+                item.style.background = gradient;
+                
+                // 更新CSS变量
+                const hue1 = Math.floor(Math.random() * 360);
+                const hue2 = (hue1 + 60) % 360;
+                item.style.setProperty('--icon-color1', `hsl(${hue1}, 70%, 60%)`);
+                item.style.setProperty('--icon-color2', `hsl(${hue2}, 70%, 50%)`);
+            });
+            
+            // 4. 更换推广链接图标颜色
+            const promoIcons = document.querySelectorAll('.promo-icon');
+            promoIcons.forEach(icon => {
+                const hue1 = Math.floor(Math.random() * 360);
+                const hue2 = (hue1 + 60) % 360;
+                icon.style.setProperty('--icon-color1', `hsl(${hue1}, 70%, 60%)`);
+                icon.style.setProperty('--icon-color2', `hsl(${hue2}, 70%, 50%)`);
+            });
+            
+            // 5. 更换推广链接标题颜色
+            const promoTitles = document.querySelectorAll('.promo-title');
+            promoTitles.forEach(title => {
+                title.style.color = getRandomColor();
+            });
+            
+            // 6. 更换推广链接描述颜色
+            const promoDescs = document.querySelectorAll('.promo-desc');
+            promoDescs.forEach(desc => {
+                desc.style.color = getRandomColor();
+            });
+            
+            // 7. 更换箭头颜色
+            const promoArrows = document.querySelectorAll('.promo-arrow');
+            promoArrows.forEach(arrow => {
+                arrow.style.color = getRandomColor();
+            });
+            
+            // 8. 更换点击提示颜色
+            const clickHints = document.querySelectorAll('.click-hint');
+            clickHints.forEach(hint => {
+                hint.style.color = getRandomColor();
+            });
+        }
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 根据设备性能调整效果
+            const isMobile = window.innerWidth <= 768;
+            const isLowPerformance = navigator.hardwareConcurrency <= 2;
+            
+            // 初始化烟花效果（在低性能设备或移动设备上减少效果）
+            if (!isMobile && !isLowPerformance) {
+                fireworksInstance = new OptimizedFireworks();
+                
+                // 每90秒自动触发一次烟花
+                setInterval(() => {
+                    if (fireworksInstance && fireworksInstance.autoFireworks) {
+                        fireworksInstance.trigger();
+                    }
+                }, 90000);
+            }
+            
+            // 初始化自动颜色更换
+            initAutoColorChange();
+            
+            // 为所有推广链接容器添加点击事件
+            const promoItems = document.querySelectorAll('.promo-item');
+            promoItems.forEach(item => {
+                // 添加触摸设备支持
+                item.addEventListener('touchstart', function() {
+                    this.style.transform = 'translateY(-5px) scale(0.98)';
+                });
+                
+                item.addEventListener('touchend', function() {
+                    this.style.transform = '';
+                });
+                
+                // 添加键盘支持
+                item.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        const url = this.getAttribute('data-url');
+                        if (url) openLink(url);
+                    }
+                });
+                
+                // 添加点击效果
+                item.addEventListener('click', function() {
+                    // 添加点击动画效果
+                    this.style.boxShadow = '0 0 30px rgba(255, 255, 255, 0.6)';
+                    setTimeout(() => {
+                        this.style.boxShadow = '';
+                    }, 300);
+                    
+                    // 点击链接时触发小型烟花效果（仅在烟花效果启用时）
+                    if (fireworksInstance) {
+                        const rect = this.getBoundingClientRect();
+                        const x = rect.left + rect.width / 2;
+                        const y = rect.top + rect.height / 2;
+                        fireworksInstance.createFirework(x, y);
+                    }
+                });
+            });
+            
+            // 为可点击元素添加键盘焦点支持
+            promoItems.forEach(item => {
+                item.setAttribute('tabindex', '0');
             });
         });
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
